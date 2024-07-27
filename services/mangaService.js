@@ -41,17 +41,31 @@ module.exports = {
 
   update: async (req, res) => {
     try {
-        const item = await mangaModel.findByIdAndUpdate(
-            req.params.id,
-            { $set: req.body },
-            {
-                new: true
-            }
-        );
+      const item = await mangaModel.findByIdAndUpdate(
+        req.params.id,
+        { $set: req.body },
+        {
+          new: true,
+        }
+      );
 
-        res.json(item);
+      res.json(item);
     } catch (err) {
-        res.status(500).json(err);
+      res.status(500).json(err);
     }
-  }
+  },
+
+  getLatest: (req, res) => {
+    mangaModel
+      .find({})
+      .sort({ createdAt: -1 })
+      .limit(3)
+      .then((data) => {
+        res.json(data);
+      })
+      .catch((err) => {
+        res.status(500).json(err);
+        console.log(err);
+      });
+  },
 };
