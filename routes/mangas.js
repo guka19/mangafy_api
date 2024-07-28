@@ -2,6 +2,7 @@ const mangaService = require("../services/mangaService");
 const express = require("express");
 const router = express.Router();
 
+router.get("/api/search", mangaService.searchMangas)
 router.get("/api/getLatest", mangaService.getLatest);
 router.get("/api/getAll", mangaService.getAll);
 router.get("/api/:id", mangaService.getById);

@@ -68,4 +68,33 @@ module.exports = {
         console.log(err);
       });
   },
+
+  searchMangas: async (req, res) => {
+    const { title, category, rating, price } = req.query;
+
+    let filter = {};
+
+    if (title) {
+      filter.title = new RegExp(title, 'i');
+    }
+
+    if (category) {
+      filter.category = category;
+    }
+
+    let sort = {};
+    if (price) {
+      sort.price = price === 'low-to-high' ? 1 : -1;
+    } else if (rating) {
+      sort.rating = rating === 'low-to-high' ? 1 : -1;
+    }
+
+    try {
+      const items = await mangaModel.find(filter).sort(sort);
+      res.json(items);
+    } catch (err) {
+      res.status(500).json(err);
+      console.log(err);
+    }
+  }
 };
