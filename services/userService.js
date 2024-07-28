@@ -70,7 +70,7 @@ module.exports = {
           process.env.SECRET_KEY
         );
 
-        res.json({ token });
+        res.json({ message: "Welcome Back!", token });
       } else {
         return res.status(404).json({
           message: "user_not_found",
