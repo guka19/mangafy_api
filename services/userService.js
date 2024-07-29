@@ -81,4 +81,23 @@ module.exports = {
       console.log(err);
     }
   },
+
+  getAll: (req, res) => {
+    userModel.find({})
+      .then((data) => {
+        res.json(data);
+      })
+      .catch(err => {
+        res.status(500).json(err);
+      })
+  },
+
+  getUserById: async (req, res) => {
+    try {
+      const user = await userModel.findById(req.params.id);
+      res.json(user);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  }
 };
