@@ -15,7 +15,7 @@ module.exports = {
     } catch (err) {
       res.status(500).json(err);
     }
-  },
+  },  
 
   addToCart: async (req, res) => {
     try {

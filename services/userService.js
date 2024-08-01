@@ -83,13 +83,14 @@ module.exports = {
   },
 
   getAll: (req, res) => {
-    userModel.find({})
+    userModel
+      .find({})
       .then((data) => {
         res.json(data);
       })
-      .catch(err => {
+      .catch((err) => {
         res.status(500).json(err);
-      })
+      });
   },
 
   getUserById: async (req, res) => {
@@ -99,5 +100,49 @@ module.exports = {
     } catch (err) {
       res.status(500).json(err);
     }
-  }
+  },
+
+  updateUser: async (req, res) => {
+    try {
+      const userId = req.user.id;
+
+      if (req.user.role !== "user") {
+        return res.status(403).json({ message: "Access denied." });
+      }
+
+      const updatedUser = await userModel.findByIdAndUpdate(userId, req.body, {
+        new: true,
+        runValidators: true,
+      });
+
+      if (!updatedUser) {
+        return res.status(404).json({ message: "User not found." });
+      }
+
+      res.json(updatedUser);
+    } catch (err) {
+      res.status(500).json(err);
+      console.log(err);
+    }
+  },
+
+  deleteUser: async (req, res) => {
+    try {
+      const userId = req.user.id;
+  
+      if (req.user.role !== 'user') {
+        return res.status(403).json({ message: 'Access denied.' });
+      }
+  
+      const deletedUser = await userModel.findByIdAndDelete(userId);
+  
+      if (!deletedUser) {
+        return res.status(404).json({ message: 'User not found.' });
+      }
+  
+      res.json({ message: 'User deleted successfully.' });
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  }  
 };
