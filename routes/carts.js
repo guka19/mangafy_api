@@ -7,5 +7,6 @@ router.get("/api/cart", authenticate, cartService.getCart);
 router.post("/api/cart", authenticate, cartService.addToCart);
 router.put("/api/cart", authenticate, cartService.updateCart);
 router.delete("/api/cart", authenticate, cartService.deleteCart);
+router.post('/api/clear', authenticate, cartService.clearCart);
 
 module.exports = router;

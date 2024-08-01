@@ -87,4 +87,17 @@ module.exports = {
       res.status(500).json(err);
     }
   },
+
+  clearCart: async (req, res) => {
+    try {
+      const cart = await CartModel.findOneAndUpdate(
+        { user: req.user.id },
+        { $set: { items: [] } },
+        { new: true }
+      );
+      res.json(cart);
+    } catch (err) {
+      res.status(500).json(err);
+    }
+  }
 };
